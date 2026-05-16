@@ -92,9 +92,22 @@ if (class_exists('WooCommerce')) {
                     </div>
                 </div>
                 <div class="category-grid category-grid-modern">
-                    <?php foreach (array_slice($arivelle_product_categories, 0, 8) as $category) : ?>
-                        <a class="category-card dynamic-category-card" href="#category-<?php echo esc_attr($category->slug); ?>">
-                            <span class="category-art"></span>
+                    <?php foreach ($arivelle_product_categories as $category) : ?>
+                        <?php
+                        $category_link = get_term_link($category);
+                        $thumbnail_id  = get_term_meta($category->term_id, 'thumbnail_id', true);
+                        $image_url     = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'woocommerce_thumbnail') : '';
+
+                        if (is_wp_error($category_link)) {
+                            continue;
+                        }
+                        ?>
+                        <a class="category-card dynamic-category-card" href="<?php echo esc_url($category_link); ?>">
+                            <?php if ($image_url) : ?>
+                                <img class="category-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($category->name); ?>">
+                            <?php else : ?>
+                                <span class="category-art"></span>
+                            <?php endif; ?>
                             <span class="category-count"><?php echo esc_html(number_format_i18n($category->count)); ?> products</span>
                             <h3><?php echo esc_html($category->name); ?></h3>
                         </a>
