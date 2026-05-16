@@ -527,7 +527,7 @@ img {
 }
 
 .category-grid-modern .category-card {
-  min-height: 260px;
+  min-height: 0;
   background: #fff7f0;
 }
 
@@ -664,6 +664,7 @@ img {
 .category-card {
   position: relative;
   min-height: 230px;
+  aspect-ratio: var(--category-ratio, auto);
   overflow: hidden;
   border-radius: 8px;
   background: var(--ari-blush);

@@ -96,13 +96,16 @@ if (class_exists('WooCommerce')) {
                         <?php
                         $category_link = get_term_link($category);
                         $thumbnail_id  = get_term_meta($category->term_id, 'thumbnail_id', true);
-                        $image_url     = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'woocommerce_thumbnail') : '';
+                        $image_data    = $thumbnail_id ? wp_get_attachment_image_src($thumbnail_id, 'full') : false;
+                        $image_url     = $image_data ? $image_data[0] : '';
+                        $image_width   = !empty($image_data[1]) ? (int) $image_data[1] : 1;
+                        $image_height  = !empty($image_data[2]) ? (int) $image_data[2] : 1;
 
                         if (is_wp_error($category_link)) {
                             continue;
                         }
                         ?>
-                        <a class="category-card dynamic-category-card" href="<?php echo esc_url($category_link); ?>">
+                        <a class="category-card dynamic-category-card" href="<?php echo esc_url($category_link); ?>" style="--category-ratio: <?php echo esc_attr($image_width . ' / ' . $image_height); ?>;">
                             <?php if ($image_url) : ?>
                                 <img class="category-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($category->name); ?>">
                             <?php else : ?>
