@@ -777,6 +777,24 @@ img {
   width: calc(100% - 32px);
 }
 
+.category-lazy-loader {
+  margin: 26px 0 8px;
+  color: var(--ari-muted);
+  font-size: 14px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.category-lazy-loader:not(.is-loading) {
+  min-height: 0;
+  font-size: 0;
+}
+
+.category-lazy-sentinel {
+  width: 100%;
+  height: 1px;
+}
+
 .woocommerce span.onsale {
   min-height: auto;
   min-width: auto;
