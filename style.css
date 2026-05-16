@@ -92,6 +92,15 @@ img {
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 0;
+  line-height: 0;
+}
+
+.brand-logo {
+  display: block;
+  width: min(232px, 54vw);
+  height: auto;
+  max-height: 58px;
+  object-fit: contain;
 }
 
 .brand-mark {
@@ -852,6 +861,11 @@ select {
 
   .header-actions {
     display: none;
+  }
+
+  .brand-logo {
+    width: min(208px, 58vw);
+    max-height: 52px;
   }
 
   .hero-inner {

@@ -17,12 +17,13 @@
 <header class="site-header">
     <div class="header-inner">
         <a class="brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php bloginfo('name'); ?>">
-            <?php if (has_custom_logo()) : ?>
-                <?php the_custom_logo(); ?>
-            <?php else : ?>
-                <span class="brand-mark">A</span>
-                <span><?php bloginfo('name'); ?></span>
-            <?php endif; ?>
+            <img
+                class="brand-logo"
+                src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/arivelle-logo-header.png'); ?>"
+                width="720"
+                height="180"
+                alt="<?php bloginfo('name'); ?>"
+            >
         </a>
 
         <nav id="site-navigation" class="main-nav" aria-label="<?php esc_attr_e('Primary menu', 'arivelle-bloom'); ?>">
