@@ -43,14 +43,20 @@ if (class_exists('WooCommerce')) {
                     <span>WhatsApp support</span>
                 </div>
             </div>
-            <div class="commerce-hero-panel" aria-hidden="true">
+            <div class="commerce-hero-panel">
+                <img
+                    class="commerce-hero-image"
+                    src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/homepage-festive-model.png'); ?>"
+                    width="1412"
+                    height="1114"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    alt="<?php esc_attr_e('Model wearing festive Arivelle jewellery', 'arivelle-bloom'); ?>"
+                >
                 <div class="hero-product-card hero-product-card-main">
                     <span>Best Pick</span>
                     <strong>Kundan Jhumkas</strong>
-                </div>
-                <div class="hero-product-card hero-product-card-small">
-                    <span>Gift Ready</span>
-                    <strong>Clutch Sets</strong>
                 </div>
             </div>
         </div>
