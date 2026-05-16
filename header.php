@@ -37,7 +37,7 @@
         </nav>
 
         <div class="header-actions">
-            <a class="icon-link" href="<?php echo esc_url(home_url('/?s=')); ?>" aria-label="<?php esc_attr_e('Search', 'arivelle-bloom'); ?>">
+            <a class="icon-link search-toggle" href="<?php echo esc_url(home_url('/?s=')); ?>" aria-label="<?php esc_attr_e('Search', 'arivelle-bloom'); ?>" aria-controls="header-search" aria-expanded="false">
                 <span class="dashicons dashicons-search" aria-hidden="true"></span>
             </a>
             <?php if (class_exists('WooCommerce')) : ?>
@@ -46,6 +46,15 @@
                 </a>
             <?php endif; ?>
         </div>
+
+        <form id="header-search" class="header-search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+            <label class="screen-reader-text" for="header-search-field"><?php esc_html_e('Search products', 'arivelle-bloom'); ?></label>
+            <input id="header-search-field" type="search" name="s" placeholder="<?php esc_attr_e('Search jewellery, bags, clutches...', 'arivelle-bloom'); ?>" value="<?php echo esc_attr(get_search_query()); ?>">
+            <?php if (class_exists('WooCommerce')) : ?>
+                <input type="hidden" name="post_type" value="product">
+            <?php endif; ?>
+            <button class="button" type="submit"><?php esc_html_e('Search', 'arivelle-bloom'); ?></button>
+        </form>
     </div>
 </header>
 <?php

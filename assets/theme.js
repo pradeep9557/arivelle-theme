@@ -1,4 +1,55 @@
 (function () {
+  var header = document.querySelector('.site-header');
+  var searchToggle = document.querySelector('.search-toggle');
+  var searchForm = document.querySelector('.header-search');
+  var searchInput = document.querySelector('#header-search-field');
+
+  if (!header || !searchToggle || !searchForm || !searchInput) {
+    return;
+  }
+
+  function closeSearch() {
+    header.classList.remove('search-open');
+    searchToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function openSearch() {
+    header.classList.add('search-open');
+    searchToggle.setAttribute('aria-expanded', 'true');
+    window.setTimeout(function () {
+      searchInput.focus();
+    }, 180);
+  }
+
+  searchToggle.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    if (header.classList.contains('search-open')) {
+      closeSearch();
+      return;
+    }
+
+    openSearch();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeSearch();
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!header.classList.contains('search-open')) {
+      return;
+    }
+
+    if (!header.contains(event.target)) {
+      closeSearch();
+    }
+  });
+})();
+
+(function () {
   var products = document.querySelector('body.tax-product_cat ul.products');
   var pagination = document.querySelector('body.tax-product_cat nav.woocommerce-pagination');
 

@@ -91,7 +91,8 @@ img {
   grid-template-columns: minmax(0, auto) 1fr auto;
   grid-template-areas:
     "brand . actions"
-    "brand . nav";
+    "brand . nav"
+    "search search search";
   align-items: center;
   gap: 8px 20px;
   min-height: 0;
@@ -182,6 +183,39 @@ img {
   height: 20px;
   font-size: 20px;
   line-height: 1;
+}
+
+.header-search {
+  grid-area: search;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-8px);
+  transition: max-height 260ms ease, opacity 220ms ease, padding 260ms ease, transform 260ms ease;
+}
+
+.site-header.search-open .header-search {
+  max-height: 82px;
+  opacity: 1;
+  padding-top: 12px;
+  transform: translateY(0);
+}
+
+.header-search input[type="search"] {
+  min-height: 46px;
+  border-radius: 999px;
+  padding: 10px 18px;
+}
+
+.header-search .button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 22px;
+  cursor: pointer;
 }
 
 .hero {
@@ -910,6 +944,14 @@ select {
   .main-nav a {
     display: block;
     padding: 12px 0;
+  }
+
+  .header-search {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header.search-open .header-search {
+    max-height: 140px;
   }
 
   .header-actions {
