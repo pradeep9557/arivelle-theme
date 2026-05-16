@@ -111,8 +111,6 @@ if (class_exists('WooCommerce')) {
                             <?php else : ?>
                                 <span class="category-art"></span>
                             <?php endif; ?>
-                            <span class="category-count"><?php echo esc_html(number_format_i18n($category->count)); ?> products</span>
-                            <h3><?php echo esc_html($category->name); ?></h3>
                         </a>
                     <?php endforeach; ?>
                 </div>

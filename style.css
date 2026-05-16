@@ -532,7 +532,7 @@ img {
 }
 
 .category-grid-modern .category-card::before {
-  background: linear-gradient(180deg, rgba(36, 21, 27, 0.02) 36%, rgba(36, 21, 27, 0.68));
+  display: none;
 }
 
 .offer-grid {
