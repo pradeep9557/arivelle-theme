@@ -91,8 +91,7 @@ img {
   grid-template-columns: minmax(0, auto) 1fr auto;
   grid-template-areas:
     "brand . actions"
-    "brand . toggle"
-    "nav nav nav";
+    "brand . nav";
   align-items: center;
   gap: 8px 20px;
   min-height: 0;
@@ -134,12 +133,8 @@ img {
 
 .main-nav {
   grid-area: nav;
-  display: none;
   justify-self: end;
   padding-top: 8px;
-}
-
-.main-nav.is-open {
   display: block;
 }
 
@@ -170,8 +165,7 @@ img {
   gap: 10px;
 }
 
-.icon-link,
-.menu-toggle {
+.icon-link {
   display: inline-grid;
   place-items: center;
   width: 42px;
@@ -184,20 +178,6 @@ img {
 }
 
 .icon-link .dashicons {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  line-height: 1;
-}
-
-.menu-toggle {
-  grid-area: toggle;
-  display: inline-grid;
-  justify-self: end;
-  cursor: pointer;
-}
-
-.menu-toggle .dashicons {
   width: 20px;
   height: 20px;
   font-size: 20px;
@@ -872,23 +852,20 @@ select {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
       "brand actions"
-      "brand toggle"
       "nav nav";
     gap: 8px 12px;
   }
 
   .main-nav {
+    justify-self: end;
     padding: 0 0 18px;
   }
 
-  .main-nav.is-open {
-    display: block;
-  }
-
   .main-nav ul {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0 16px;
   }
 
   .main-nav a {
