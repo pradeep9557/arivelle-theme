@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" role="img" aria-label="Fashion accessories arrangement">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fff4f3"/>
+      <stop offset=".48" stop-color="#ffe9dc"/>
+      <stop offset="1" stop-color="#dff4eb"/>
+    </linearGradient>
+    <linearGradient id="rose" x1="0" x2="1">
+      <stop stop-color="#b13f5b"/>
+      <stop offset="1" stop-color="#f0a3b3"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop stop-color="#c49a3a"/>
+      <stop offset="1" stop-color="#f8d87d"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="760" fill="url(#bg)"/>
+  <circle cx="690" cy="170" r="142" fill="#fff" opacity=".56"/>
+  <circle cx="250" cy="575" r="178" fill="#fff" opacity=".44"/>
+  <path d="M520 260c38-85 157-98 211-23 62 86 13 216-89 238l-190 41c-56 12-104-43-84-97l152-159z" fill="url(#rose)" opacity=".9"/>
+  <path d="M540 302c28-52 102-62 140-16 45 55 17 142-50 159l-124 31c-35 9-66-27-52-61l86-113z" fill="#fff" opacity=".28"/>
+  <circle cx="320" cy="236" r="68" fill="url(#gold)"/>
+  <circle cx="320" cy="236" r="36" fill="#fff4f3"/>
+  <path d="M285 305c0 67 70 112 132 84 32-15 54-47 54-84" fill="none" stroke="#c49a3a" stroke-width="28" stroke-linecap="round"/>
+  <path d="M180 400c50-33 121-33 172 1 38 25 85 27 125 5l88-49c52-29 117 11 114 70l-9 157c-3 52-47 92-99 88l-347-25c-67-5-105-79-70-136l26-111z" fill="#24151b" opacity=".92"/>
+  <path d="M244 396c10-78 134-86 154-10" fill="none" stroke="#c49a3a" stroke-width="18" stroke-linecap="round"/>
+  <path d="M189 467h410" stroke="#fff" stroke-width="3" opacity=".16"/>
+  <circle cx="660" cy="578" r="36" fill="url(#gold)"/>
+  <circle cx="710" cy="604" r="18" fill="#b13f5b"/>
+  <path d="M112 168c38-44 106-47 148-7" fill="none" stroke="#b13f5b" stroke-width="20" stroke-linecap="round"/>
+  <circle cx="105" cy="214" r="42" fill="url(#gold)"/>
+  <circle cx="270" cy="214" r="42" fill="url(#gold)"/>
+</svg>
