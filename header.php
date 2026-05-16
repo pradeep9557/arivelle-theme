@@ -20,8 +20,8 @@
             <img
                 class="brand-logo"
                 src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/arivelle-logo-header.png'); ?>"
-                width="720"
-                height="180"
+                width="1200"
+                height="338"
                 alt="<?php bloginfo('name'); ?>"
             >
         </a>

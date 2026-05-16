@@ -78,15 +78,21 @@ img {
 
 .header-inner {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-areas:
+    "brand brand brand brand"
+    ". nav actions .";
   align-items: center;
-  gap: 24px;
-  min-height: 76px;
+  gap: 12px 18px;
+  min-height: 0;
+  padding: 14px 0 12px;
 }
 
 .brand {
+  grid-area: brand;
   display: inline-flex;
   align-items: center;
+  justify-self: center;
   gap: 10px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 30px;
@@ -97,9 +103,9 @@ img {
 
 .brand-logo {
   display: block;
-  width: min(232px, 54vw);
+  width: min(440px, 82vw);
   height: auto;
-  max-height: 58px;
+  max-height: 124px;
   object-fit: contain;
 }
 
@@ -113,6 +119,11 @@ img {
   background: linear-gradient(135deg, var(--ari-rose), var(--ari-gold));
   font-family: Inter, sans-serif;
   font-size: 16px;
+}
+
+.main-nav {
+  grid-area: nav;
+  justify-self: center;
 }
 
 .main-nav ul {
@@ -135,6 +146,7 @@ img {
 }
 
 .header-actions {
+  grid-area: actions;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -830,16 +842,21 @@ select {
 
 @media (max-width: 900px) {
   .header-inner {
-    grid-template-columns: auto auto;
-    justify-content: space-between;
+    grid-template-columns: 1fr auto auto 1fr;
+    grid-template-areas:
+      "brand brand brand brand"
+      ". toggle actions ."
+      "nav nav nav nav";
+    gap: 12px 14px;
+    justify-content: center;
   }
 
   .menu-toggle {
+    grid-area: toggle;
     display: inline-grid;
   }
 
   .main-nav {
-    grid-column: 1 / -1;
     display: none;
     padding: 0 0 18px;
   }
@@ -860,12 +877,12 @@ select {
   }
 
   .header-actions {
-    display: none;
+    display: flex;
   }
 
   .brand-logo {
-    width: min(208px, 58vw);
-    max-height: 52px;
+    width: min(320px, 86vw);
+    max-height: 90px;
   }
 
   .hero-inner {
