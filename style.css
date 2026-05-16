@@ -333,7 +333,7 @@ img {
   display: grid;
   grid-template-columns: minmax(320px, 0.78fr) minmax(460px, 1.22fr);
   gap: 52px;
-  align-items: center;
+  align-items: start;
   min-height: 680px;
   padding: 58px 0;
 }
@@ -377,10 +377,13 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  width: max-content;
+  max-width: min(720px, 100vw - 32px);
   margin-top: 28px;
 }
 
 .hero-mini-stats span {
+  flex: 0 0 auto;
   padding: 13px 18px;
   border: 1px solid var(--ari-line);
   border-radius: 999px;
@@ -393,6 +396,7 @@ img {
 
 .commerce-hero-panel {
   position: relative;
+  margin-top: 48px;
   min-height: 560px;
   border-radius: 18px;
   overflow: visible;
@@ -962,6 +966,7 @@ select {
   }
 
   .commerce-hero-panel {
+    margin-top: 0;
     min-height: 0;
   }
 
@@ -1009,6 +1014,11 @@ select {
 
   .commerce-hero-copy h1 {
     font-size: 40px;
+  }
+
+  .hero-mini-stats {
+    width: 100%;
+    max-width: 100%;
   }
 
   .commerce-hero-panel {
