@@ -45,6 +45,10 @@
                     <span class="dashicons dashicons-cart" aria-hidden="true"></span>
                 </a>
             <?php endif; ?>
+            <button class="icon-link menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+                <span class="dashicons dashicons-menu" aria-hidden="true"></span>
+                <span class="screen-reader-text"><?php esc_html_e('Menu', 'arivelle-bloom'); ?></span>
+            </button>
         </div>
 
         <form id="header-search" class="header-search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">

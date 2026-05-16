@@ -185,6 +185,11 @@ img {
   line-height: 1;
 }
 
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
 .header-search {
   grid-area: search;
   display: grid;
