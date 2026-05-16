@@ -56,16 +56,6 @@ if (class_exists('WooCommerce')) {
         </div>
     </section>
 
-    <?php if (!empty($arivelle_product_categories)) : ?>
-        <section class="category-rail" aria-label="Shop product categories">
-            <div class="wrap category-rail-inner">
-                <?php foreach ($arivelle_product_categories as $category) : ?>
-                    <a href="#category-<?php echo esc_attr($category->slug); ?>"><?php echo esc_html($category->name); ?></a>
-                <?php endforeach; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
     <?php if (class_exists('WooCommerce')) : ?>
         <section class="section product-feature">
             <div class="wrap">
