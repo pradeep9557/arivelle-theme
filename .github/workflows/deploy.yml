@@ -19,5 +19,11 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
           local-dir: ./
-          server-dir: /home4/elvaa9ym/arivelle.in/wp-content/themes/arivelle-bloom-theme-root-1.1.1/
+          server-dir: ./
+          dangerous-clean-slate: true
+          exclude: |
+            **/.git*
+            **/.git*/**
