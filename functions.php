@@ -25,8 +25,10 @@ function arivelle_bloom_setup() {
     add_theme_support('align-wide');
 
     register_nav_menus(array(
-        'primary' => __('Primary Menu', 'arivelle-bloom'),
-        'footer'  => __('Footer Menu', 'arivelle-bloom'),
+        'primary'        => __('Primary Menu', 'arivelle-bloom'),
+        'footer'         => __('Footer Menu', 'arivelle-bloom'),
+        'footer_shop'    => __('Footer Shop Menu', 'arivelle-bloom'),
+        'footer_support' => __('Footer Support Menu', 'arivelle-bloom'),
     ));
 }
 add_action('after_setup_theme', 'arivelle_bloom_setup');
@@ -85,3 +87,52 @@ function arivelle_bloom_product_columns() {
     return 4;
 }
 add_filter('loop_shop_columns', 'arivelle_bloom_product_columns');
+
+function arivelle_bloom_footer_shop_fallback() {
+    echo '<ul>';
+    echo '<li><a href="' . esc_url(home_url('/product-category/jhumka/')) . '">Jhumka</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/product-category/earrings/')) . '">Earrings</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/product-category/clutches/')) . '">Clutches</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/product-category/handbags/')) . '">Handbags</a></li>';
+    echo '</ul>';
+}
+
+function arivelle_bloom_footer_support_fallback() {
+    echo '<ul>';
+    echo '<li><a href="' . esc_url(home_url('/contact/')) . '">Contact</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/shipping-policy/')) . '">Shipping</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/return-policy/')) . '">Returns</a></li>';
+    echo '<li><a href="' . esc_url(home_url('/privacy-policy/')) . '">Privacy</a></li>';
+    echo '</ul>';
+}
+
+function arivelle_bloom_customize_register($wp_customize) {
+    $wp_customize->add_section('arivelle_bloom_footer_content', array(
+        'title'       => __('Footer Content', 'arivelle-bloom'),
+        'description' => __('Update footer about and order help text.', 'arivelle-bloom'),
+        'priority'    => 160,
+    ));
+
+    $wp_customize->add_setting('arivelle_footer_about_text', array(
+        'default'           => __('Beautiful jhumkas, earrings, clutches, and handbags selected for everyday glow and festive moments.', 'arivelle-bloom'),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control('arivelle_footer_about_text', array(
+        'label'   => __('About Text', 'arivelle-bloom'),
+        'section' => 'arivelle_bloom_footer_content',
+        'type'    => 'textarea',
+    ));
+
+    $wp_customize->add_setting('arivelle_footer_order_help_text', array(
+        'default'           => __('Need styling help or bulk order support? Add WhatsApp chat from your plugin dashboard.', 'arivelle-bloom'),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+
+    $wp_customize->add_control('arivelle_footer_order_help_text', array(
+        'label'   => __('Order Help Text', 'arivelle-bloom'),
+        'section' => 'arivelle_bloom_footer_content',
+        'type'    => 'textarea',
+    ));
+}
+add_action('customize_register', 'arivelle_bloom_customize_register');
