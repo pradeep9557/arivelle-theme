@@ -13,7 +13,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div class="site-topbar">Festive accessories live now | Free shipping above Rs. 999 | WhatsApp support available</div>
+<div class="site-topbar">Welcome to Arivelle | Enjoy Free shipping above Rs. 149 | WhatsApp support available</div>
 <header class="site-header">
     <div class="header-inner">
         <a class="brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php bloginfo('name'); ?>">
