@@ -136,3 +136,90 @@ function arivelle_bloom_customize_register($wp_customize) {
     ));
 }
 add_action('customize_register', 'arivelle_bloom_customize_register');
+
+function arivelle_bloom_has_seo_plugin() {
+    return defined('WPSEO_VERSION')
+        || defined('RANK_MATH_VERSION')
+        || defined('AIOSEO_VERSION')
+        || class_exists('autodescription');
+}
+
+function arivelle_bloom_get_meta_description() {
+    if (is_front_page()) {
+        return get_bloginfo('description') ?: __('Shop fashion jewellery, jhumkas, earrings, necklaces, handbags and festive accessories at Arivelle.', 'arivelle-bloom');
+    }
+
+    if (is_singular()) {
+        $post = get_post();
+
+        if (!$post) {
+            return '';
+        }
+
+        if (has_excerpt($post)) {
+            return get_the_excerpt($post);
+        }
+
+        return wp_trim_words(wp_strip_all_tags(strip_shortcodes($post->post_content)), 28);
+    }
+
+    if (is_tax() || is_category() || is_tag()) {
+        return wp_strip_all_tags(term_description());
+    }
+
+    if (class_exists('WooCommerce') && is_shop()) {
+        return __('Explore Arivelle fashion jewellery, bags, clutches and accessories for everyday and festive styling.', 'arivelle-bloom');
+    }
+
+    return get_bloginfo('description');
+}
+
+function arivelle_bloom_seo_meta() {
+    if (arivelle_bloom_has_seo_plugin()) {
+        return;
+    }
+
+    $description = arivelle_bloom_get_meta_description();
+
+    if ($description) {
+        echo '<meta name="description" content="' . esc_attr(wp_trim_words($description, 32, '')) . '">' . "\n";
+    }
+
+    echo '<meta name="robots" content="max-image-preview:large">' . "\n";
+}
+add_action('wp_head', 'arivelle_bloom_seo_meta', 2);
+
+function arivelle_bloom_structured_data() {
+    if (arivelle_bloom_has_seo_plugin() || !is_front_page()) {
+        return;
+    }
+
+    $logo = get_template_directory_uri() . '/assets/images/arivelle-logo-header.png';
+    $data = array(
+        '@context'        => 'https://schema.org',
+        '@graph'          => array(
+            array(
+                '@type' => 'Organization',
+                '@id'   => home_url('/#organization'),
+                'name'  => get_bloginfo('name'),
+                'url'   => home_url('/'),
+                'logo'  => esc_url_raw($logo),
+            ),
+            array(
+                '@type'           => 'WebSite',
+                '@id'             => home_url('/#website'),
+                'url'             => home_url('/'),
+                'name'            => get_bloginfo('name'),
+                'publisher'       => array('@id' => home_url('/#organization')),
+                'potentialAction' => array(
+                    '@type'       => 'SearchAction',
+                    'target'      => home_url('/?s={search_term_string}&post_type=product'),
+                    'query-input' => 'required name=search_term_string',
+                ),
+            ),
+        ),
+    );
+
+    echo '<script type="application/ld+json">' . wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . "\n";
+}
+add_action('wp_head', 'arivelle_bloom_structured_data', 20);

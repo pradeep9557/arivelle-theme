@@ -97,7 +97,15 @@ if (class_exists('WooCommerce')) {
                         ?>
                         <a class="category-card dynamic-category-card" href="<?php echo esc_url($category_link); ?>" style="--category-ratio: <?php echo esc_attr($image_width . ' / ' . $image_height); ?>;">
                             <?php if ($image_url) : ?>
-                                <img class="category-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($category->name); ?>">
+                                <img
+                                    class="category-image"
+                                    src="<?php echo esc_url($image_url); ?>"
+                                    width="<?php echo esc_attr($image_width); ?>"
+                                    height="<?php echo esc_attr($image_height); ?>"
+                                    loading="lazy"
+                                    decoding="async"
+                                    alt="<?php echo esc_attr($category->name); ?>"
+                                >
                             <?php else : ?>
                                 <span class="category-art"></span>
                             <?php endif; ?>
