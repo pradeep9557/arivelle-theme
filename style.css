@@ -53,6 +53,16 @@ img {
   height: auto;
 }
 
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 .site-topbar {
   background: var(--ari-ink);
   color: var(--ari-white);
@@ -78,21 +88,22 @@ img {
 
 .header-inner {
   display: grid;
-  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-columns: minmax(0, auto) 1fr auto;
   grid-template-areas:
-    "brand brand brand brand"
-    ". nav actions .";
+    "brand . actions"
+    "brand . toggle"
+    "nav nav nav";
   align-items: center;
-  gap: 12px 18px;
+  gap: 8px 20px;
   min-height: 0;
-  padding: 14px 0 12px;
+  padding: 12px 0;
 }
 
 .brand {
   grid-area: brand;
   display: inline-flex;
   align-items: center;
-  justify-self: center;
+  justify-self: start;
   gap: 10px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 30px;
@@ -103,9 +114,9 @@ img {
 
 .brand-logo {
   display: block;
-  width: min(440px, 82vw);
+  width: min(380px, 62vw);
   height: auto;
-  max-height: 124px;
+  max-height: 108px;
   object-fit: contain;
 }
 
@@ -123,7 +134,13 @@ img {
 
 .main-nav {
   grid-area: nav;
-  justify-self: center;
+  display: none;
+  justify-self: end;
+  padding-top: 8px;
+}
+
+.main-nav.is-open {
+  display: block;
 }
 
 .main-nav ul {
@@ -149,6 +166,7 @@ img {
   grid-area: actions;
   display: flex;
   align-items: center;
+  justify-self: end;
   gap: 10px;
 }
 
@@ -173,8 +191,17 @@ img {
 }
 
 .menu-toggle {
-  display: none;
+  grid-area: toggle;
+  display: inline-grid;
+  justify-self: end;
   cursor: pointer;
+}
+
+.menu-toggle .dashicons {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 1;
 }
 
 .hero {
@@ -842,22 +869,15 @@ select {
 
 @media (max-width: 900px) {
   .header-inner {
-    grid-template-columns: 1fr auto auto 1fr;
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      "brand brand brand brand"
-      ". toggle actions ."
-      "nav nav nav nav";
-    gap: 12px 14px;
-    justify-content: center;
-  }
-
-  .menu-toggle {
-    grid-area: toggle;
-    display: inline-grid;
+      "brand actions"
+      "brand toggle"
+      "nav nav";
+    gap: 8px 12px;
   }
 
   .main-nav {
-    display: none;
     padding: 0 0 18px;
   }
 
@@ -881,8 +901,8 @@ select {
   }
 
   .brand-logo {
-    width: min(320px, 86vw);
-    max-height: 90px;
+    width: min(292px, 66vw);
+    max-height: 82px;
   }
 
   .hero-inner {

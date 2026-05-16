@@ -36,7 +36,10 @@
             ?>
         </nav>
 
-        <button class="menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">Menu</button>
+        <button class="menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+            <span class="dashicons dashicons-menu" aria-hidden="true"></span>
+            <span class="screen-reader-text"><?php esc_html_e('Menu', 'arivelle-bloom'); ?></span>
+        </button>
 
         <div class="header-actions">
             <a class="icon-link" href="<?php echo esc_url(home_url('/?s=')); ?>" aria-label="<?php esc_attr_e('Search', 'arivelle-bloom'); ?>">
