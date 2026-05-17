@@ -3,8 +3,9 @@
   var searchToggle = document.querySelector('.search-toggle');
   var searchForm = document.querySelector('.header-search');
   var searchInput = document.querySelector('#header-search-field');
+  var menuToggle = document.querySelector('.menu-toggle');
 
-  if (!header || !searchToggle || !searchForm || !searchInput) {
+  if (!header || !searchToggle || !searchForm || !searchInput || !menuToggle) {
     return;
   }
 
@@ -14,11 +15,24 @@
   }
 
   function openSearch() {
+    header.classList.remove('nav-open');
+    closeNav();
     header.classList.add('search-open');
     searchToggle.setAttribute('aria-expanded', 'true');
     window.setTimeout(function () {
       searchInput.focus();
     }, 180);
+  }
+
+  function closeNav() {
+    header.classList.remove('nav-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  function openNav() {
+    closeSearch();
+    header.classList.add('nav-open');
+    menuToggle.setAttribute('aria-expanded', 'true');
   }
 
   searchToggle.addEventListener('click', function (event) {
@@ -32,20 +46,40 @@
     openSearch();
   });
 
+  menuToggle.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    if (header.classList.contains('nav-open')) {
+      closeNav();
+      return;
+    }
+
+    openNav();
+  });
+
   document.addEventListener('keydown', function (event) {
     if (event.key === 'Escape') {
       closeSearch();
+      closeNav();
     }
   });
 
   document.addEventListener('click', function (event) {
-    if (!header.classList.contains('search-open')) {
-      return;
-    }
-
-    if (!header.contains(event.target)) {
+    if (header.classList.contains('search-open') && !header.contains(event.target)) {
       closeSearch();
     }
+
+    if (header.classList.contains('nav-open') && !header.contains(event.target)) {
+      closeNav();
+    }
+  });
+
+  document.querySelectorAll('.main-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (header.classList.contains('nav-open')) {
+        closeNav();
+      }
+    });
   });
 })();
 
