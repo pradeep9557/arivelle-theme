@@ -88,6 +88,27 @@ function arivelle_bloom_product_columns() {
 }
 add_filter('loop_shop_columns', 'arivelle_bloom_product_columns');
 
+function arivelle_bloom_force_published_product_queries($query) {
+    if (is_admin() || !$query instanceof WP_Query) {
+        return;
+    }
+
+    $post_type = $query->get('post_type');
+    $is_product_query = 'product' === $post_type || (is_array($post_type) && in_array('product', $post_type, true));
+    $is_product_tax_query = $query->is_tax(array('product_cat', 'product_tag'));
+
+    if ($is_product_query || $is_product_tax_query) {
+        $query->set('post_status', 'publish');
+    }
+}
+add_action('pre_get_posts', 'arivelle_bloom_force_published_product_queries', 20);
+
+function arivelle_bloom_force_published_product_shortcode($query_args) {
+    $query_args['post_status'] = 'publish';
+    return $query_args;
+}
+add_filter('woocommerce_shortcode_products_query', 'arivelle_bloom_force_published_product_shortcode');
+
 function arivelle_bloom_footer_shop_fallback() {
     echo '<ul>';
     echo '<li><a href="' . esc_url(home_url('/product-category/jhumka/')) . '">Jhumka</a></li>';
