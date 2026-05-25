@@ -13,7 +13,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<div class="site-topbar">Welcome to Arivelle | Enjoy Free shipping above Rs. 149 | 24x7 WhatsApp support available</div>
+<div class="site-topbar">Welcome to Arivelle ✨ Free Shipping Across India | 24x7 WhatsApp Support</div>
 <header class="site-header">
     <div class="header-inner">
         <a class="brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php bloginfo('name'); ?>">
