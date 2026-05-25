@@ -84,6 +84,39 @@
 })();
 
 (function () {
+  function hideEmptyProductSections() {
+    var productAreas = document.querySelectorAll(
+      '.woocommerce, .wc-block-grid, .wp-block-woocommerce-product-collection, ul.products'
+    );
+
+    productAreas.forEach(function (area) {
+      var hasProducts = area.querySelector('li.product, .product, .wc-block-grid__product');
+
+      if (hasProducts) {
+        return;
+      }
+
+      var section = area.closest('section, .section, .category-product-section, .wp-block-group, [class*="section"]');
+
+      if (!section || section.matches('main, body, .site-header, .site-footer')) {
+        return;
+      }
+
+      section.hidden = true;
+      section.classList.add('is-empty-product-section');
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hideEmptyProductSections);
+  } else {
+    hideEmptyProductSections();
+  }
+
+  window.addEventListener('load', hideEmptyProductSections);
+})();
+
+(function () {
   var products = document.querySelector('body.tax-product_cat ul.products');
   var pagination = document.querySelector('body.tax-product_cat nav.woocommerce-pagination');
 
