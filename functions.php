@@ -96,8 +96,9 @@ function arivelle_bloom_force_published_product_queries($query) {
     $post_type = $query->get('post_type');
     $is_product_query = 'product' === $post_type || (is_array($post_type) && in_array('product', $post_type, true));
     $is_product_tax_query = $query->is_tax(array('product_cat', 'product_tag'));
+    $is_single_product_query = $query->is_singular('product');
 
-    if ($is_product_query || $is_product_tax_query) {
+    if ($is_product_query || $is_product_tax_query || $is_single_product_query) {
         $query->set('post_status', 'publish');
     }
 }
@@ -109,12 +110,142 @@ function arivelle_bloom_force_published_product_shortcode($query_args) {
 }
 add_filter('woocommerce_shortcode_products_query', 'arivelle_bloom_force_published_product_shortcode');
 
+function arivelle_bloom_get_published_product_category_ids() {
+    static $category_ids = null;
+
+    if (null !== $category_ids) {
+        return $category_ids;
+    }
+
+    if (!class_exists('WooCommerce')) {
+        $category_ids = array();
+        return $category_ids;
+    }
+
+    $product_ids = get_posts(array(
+        'post_type'              => 'product',
+        'post_status'            => 'publish',
+        'posts_per_page'         => -1,
+        'fields'                 => 'ids',
+        'no_found_rows'          => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+    ));
+
+    if (empty($product_ids)) {
+        $category_ids = array();
+        return $category_ids;
+    }
+
+    $term_ids = wp_get_object_terms($product_ids, 'product_cat', array(
+        'fields' => 'ids',
+    ));
+
+    if (is_wp_error($term_ids)) {
+        $category_ids = array();
+        return $category_ids;
+    }
+
+    $term_ids = array_map('intval', $term_ids);
+
+    foreach ($term_ids as $term_id) {
+        $term_ids = array_merge($term_ids, get_ancestors($term_id, 'product_cat', 'taxonomy'));
+    }
+
+    $category_ids = array_values(array_unique(array_map('intval', $term_ids)));
+    return $category_ids;
+}
+
+function arivelle_bloom_get_published_product_categories($args = array()) {
+    $category_ids = arivelle_bloom_get_published_product_category_ids();
+
+    if (empty($category_ids)) {
+        return array();
+    }
+
+    $categories = get_terms(wp_parse_args($args, array(
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => false,
+        'include'    => $category_ids,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'exclude'    => array(get_option('default_product_cat')),
+    )));
+
+    if (is_wp_error($categories)) {
+        return array();
+    }
+
+    return $categories;
+}
+
+function arivelle_bloom_product_category_has_published_products($slug) {
+    $term = get_term_by('slug', $slug, 'product_cat');
+
+    if (!$term || is_wp_error($term)) {
+        return false;
+    }
+
+    return in_array((int) $term->term_id, arivelle_bloom_get_published_product_category_ids(), true);
+}
+
+function arivelle_bloom_hide_empty_product_category_menu_items($items) {
+    if (is_admin()) {
+        return $items;
+    }
+
+    $category_ids = arivelle_bloom_get_published_product_category_ids();
+
+    foreach ($items as $key => $item) {
+        if ('product_cat' === $item->object && !in_array((int) $item->object_id, $category_ids, true)) {
+            unset($items[$key]);
+        }
+    }
+
+    return $items;
+}
+add_filter('wp_nav_menu_objects', 'arivelle_bloom_hide_empty_product_category_menu_items');
+
+function arivelle_bloom_404_empty_product_category_archives() {
+    if (is_admin() || !is_tax('product_cat')) {
+        return;
+    }
+
+    $term = get_queried_object();
+
+    if (!$term || empty($term->term_id)) {
+        return;
+    }
+
+    if (in_array((int) $term->term_id, arivelle_bloom_get_published_product_category_ids(), true)) {
+        return;
+    }
+
+    global $wp_query;
+
+    $wp_query->set_404();
+    status_header(404);
+    nocache_headers();
+}
+add_action('template_redirect', 'arivelle_bloom_404_empty_product_category_archives');
+
 function arivelle_bloom_footer_shop_fallback() {
+    $categories = arivelle_bloom_get_published_product_categories(array(
+        'number' => 4,
+    ));
+
     echo '<ul>';
-    echo '<li><a href="' . esc_url(home_url('/product-category/jhumka/')) . '">Jhumka</a></li>';
-    echo '<li><a href="' . esc_url(home_url('/product-category/earrings/')) . '">Earrings</a></li>';
-    echo '<li><a href="' . esc_url(home_url('/product-category/clutches/')) . '">Clutches</a></li>';
-    echo '<li><a href="' . esc_url(home_url('/product-category/handbags/')) . '">Handbags</a></li>';
+
+    foreach ($categories as $category) {
+        $category_link = get_term_link($category);
+
+        if (is_wp_error($category_link)) {
+            continue;
+        }
+
+        echo '<li><a href="' . esc_url($category_link) . '">' . esc_html($category->name) . '</a></li>';
+    }
+
     echo '</ul>';
 }
 

@@ -4,6 +4,10 @@
  *
  * @package Arivelle_Bloom
  */
+
+$arivelle_product_categories = class_exists('WooCommerce') ? arivelle_bloom_get_published_product_categories(array(
+    'number' => 4,
+)) : array();
 ?>
 <main>
     <section class="hero">
@@ -32,34 +36,33 @@
         </div>
     </section>
 
-    <section class="section">
-        <div class="wrap">
-            <div class="section-head">
-                <div>
-                    <h2>Shop by Style</h2>
-                    <p>Quick paths for buyers who already know what they want.</p>
+    <?php if (!empty($arivelle_product_categories)) : ?>
+        <section class="section">
+            <div class="wrap">
+                <div class="section-head">
+                    <div>
+                        <h2>Shop by Style</h2>
+                        <p>Quick paths for buyers who already know what they want.</p>
+                    </div>
+                </div>
+                <div class="category-grid">
+                    <?php foreach ($arivelle_product_categories as $category) : ?>
+                        <?php
+                        $category_link = get_term_link($category);
+
+                        if (is_wp_error($category_link)) {
+                            continue;
+                        }
+                        ?>
+                        <a class="category-card" href="<?php echo esc_url($category_link); ?>">
+                            <span class="category-art"></span>
+                            <h3><?php echo esc_html($category->name); ?></h3>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <div class="category-grid">
-                <a class="category-card jhumka" href="<?php echo esc_url(home_url('/product-category/jhumka/')); ?>">
-                    <span class="category-art"></span>
-                    <h3>Traditional Jhumka</h3>
-                </a>
-                <a class="category-card earrings" href="<?php echo esc_url(home_url('/product-category/earrings/')); ?>">
-                    <span class="category-art"></span>
-                    <h3>Statement Earrings</h3>
-                </a>
-                <a class="category-card clutch" href="<?php echo esc_url(home_url('/product-category/clutches/')); ?>">
-                    <span class="category-art"></span>
-                    <h3>Party Clutches</h3>
-                </a>
-                <a class="category-card bag" href="<?php echo esc_url(home_url('/product-category/handbags/')); ?>">
-                    <span class="category-art"></span>
-                    <h3>Everyday Handbags</h3>
-                </a>
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 
     <?php if (class_exists('WooCommerce')) : ?>
         <section class="section alt">

@@ -9,18 +9,36 @@
 get_header();
 
 $arivelle_product_categories = array();
+$arivelle_offer_categories = array();
 
 if (class_exists('WooCommerce')) {
-    $arivelle_product_categories = get_terms(array(
-        'taxonomy'   => 'product_cat',
-        'hide_empty' => true,
-        'orderby'    => 'count',
-        'order'      => 'DESC',
-        'exclude'    => array(get_option('default_product_cat')),
-    ));
+    $arivelle_product_categories = arivelle_bloom_get_published_product_categories();
 
-    if (is_wp_error($arivelle_product_categories)) {
-        $arivelle_product_categories = array();
+    $arivelle_offer_categories = array(
+        'combos' => array(
+            'class' => 'offer-card offer-dark',
+            'label' => __('Bundle edit', 'arivelle-bloom'),
+            'title' => __('Jhumka + Clutch combos', 'arivelle-bloom'),
+            'text'  => __('Create higher-value festive sets for quick gifting decisions.', 'arivelle-bloom'),
+        ),
+        'earrings' => array(
+            'class' => 'offer-card',
+            'label' => __('Under Rs. 999', 'arivelle-bloom'),
+            'title' => __('Everyday sparkle', 'arivelle-bloom'),
+            'text'  => __('Easy add-to-cart styles for daily wear and gifting.', 'arivelle-bloom'),
+        ),
+        'handbags' => array(
+            'class' => 'offer-card',
+            'label' => __('New arrivals', 'arivelle-bloom'),
+            'title' => __('Bags for every plan', 'arivelle-bloom'),
+            'text'  => __('Party, office and casual picks in one place.', 'arivelle-bloom'),
+        ),
+    );
+
+    foreach ($arivelle_offer_categories as $slug => $offer) {
+        if (!arivelle_bloom_product_category_has_published_products($slug)) {
+            unset($arivelle_offer_categories[$slug]);
+        }
     }
 }
 ?>
@@ -35,7 +53,9 @@ if (class_exists('WooCommerce')) {
                     <?php if (class_exists('WooCommerce')) : ?>
                         <a class="button" href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>">Shop New Arrivals</a>
                     <?php endif; ?>
-                    <a class="button secondary" href="<?php echo esc_url(home_url('/product-category/combos/')); ?>">Explore Combos</a>
+                    <?php if (class_exists('WooCommerce') && arivelle_bloom_product_category_has_published_products('combos')) : ?>
+                        <a class="button secondary" href="<?php echo esc_url(get_term_link('combos', 'product_cat')); ?>">Explore Combos</a>
+                    <?php endif; ?>
                 </div>
                 <div class="hero-mini-stats" aria-label="Store benefits">
                     <span>COD available</span>
@@ -144,25 +164,26 @@ if (class_exists('WooCommerce')) {
         </section>
     <?php endif; ?>
 
-    <section class="section alt compact-section">
-        <div class="wrap offer-grid">
-            <a class="offer-card offer-dark" href="<?php echo esc_url(home_url('/product-category/combos/')); ?>">
-                <span>Bundle edit</span>
-                <h2>Jhumka + Clutch combos</h2>
-                <p>Create higher-value festive sets for quick gifting decisions.</p>
-            </a>
-            <a class="offer-card" href="<?php echo esc_url(home_url('/product-category/earrings/')); ?>">
-                <span>Under Rs. 999</span>
-                <h2>Everyday sparkle</h2>
-                <p>Easy add-to-cart styles for daily wear and gifting.</p>
-            </a>
-            <a class="offer-card" href="<?php echo esc_url(home_url('/product-category/handbags/')); ?>">
-                <span>New arrivals</span>
-                <h2>Bags for every plan</h2>
-                <p>Party, office and casual picks in one place.</p>
-            </a>
-        </div>
-    </section>
+    <?php if (!empty($arivelle_offer_categories)) : ?>
+        <section class="section alt compact-section">
+            <div class="wrap offer-grid">
+                <?php foreach ($arivelle_offer_categories as $slug => $offer) : ?>
+                    <?php
+                    $offer_link = get_term_link($slug, 'product_cat');
+
+                    if (is_wp_error($offer_link)) {
+                        continue;
+                    }
+                    ?>
+                    <a class="<?php echo esc_attr($offer['class']); ?>" href="<?php echo esc_url($offer_link); ?>">
+                        <span><?php echo esc_html($offer['label']); ?></span>
+                        <h2><?php echo esc_html($offer['title']); ?></h2>
+                        <p><?php echo esc_html($offer['text']); ?></p>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <section class="trust-strip trust-strip-bottom">
         <div class="wrap trust-grid">
